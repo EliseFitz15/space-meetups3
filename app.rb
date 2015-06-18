@@ -40,7 +40,7 @@ end
 
 post '/' do
   authenticate!
-  
+
   meetup = Meetup.create(name: params[:name], description: params[:description], location: params[:location])
 
 
@@ -52,6 +52,13 @@ get '/:id' do
 
 
   erb :details, locals: { meetup: meetup }
+end
+
+post '/:id' do
+  authenticate!
+  meetup = Meetup.find(params[:id])
+  new_member = Membership.create(user_id: @current_user.id, meetup_id: meetup.id)
+  flash[:notice] = "You've joined a meetup"
 end
 
 get '/auth/github/callback' do

@@ -65,3 +65,29 @@ feature "User can create a new meetup" do
     expect(page).to have_content("Friends fan club")
   end
 end
+
+# I must be signed in.
+# From a meetups detail page, I should click a button to join the meetup.
+# I should see a message that tells let's me know when I have successfully joined a meetup.
+
+feature "User once signed in can join a meet up" do
+  scenario "user is not signed-in but tries to join meetup" do
+    space_ruby = Meetup.create({name: "Space Ruby", description: "Code in space.", location: "Mars"})
+    visit '/'
+    click_link "Space Ruby"
+    expect(page).to have_content("Description:")
+    click_button "Join Meetup"
+    expect(page).to have_content("You need to sign in if you want to do that!")
+  end
+  scenario "user signs in and joins a meetup" do
+    space_ruby = Meetup.create({name: "Space Ruby", description: "Code in space.", location: "Mars"})
+    user = User.create({provider: "github", uid: "10551597", username: "EliseFitz15", email: "elise.fitzgerald15@gmail.com", avatar_url: "https://avatars.githubusercontent.com/u/10551597?v..."})
+    visit '/'
+    sign_in_as(user)
+    click_link "Space Ruby"
+    expect(page).to have_content("Description:")
+    click_button "Join Meetup"
+    expect(page).to have_content("You've joined a meetup")
+  end
+
+end

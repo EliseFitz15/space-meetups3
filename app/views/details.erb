@@ -3,3 +3,7 @@
 <li>Description: <%= meetup.description %></li>
 
 <li> Location: <%= meetup.location %></li>
+
+<form action='/<%= meetup.id %>' method="post">
+  <input type="submit" value="Join Meetup">
+</form>
