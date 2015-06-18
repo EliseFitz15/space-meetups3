@@ -39,6 +39,8 @@ get '/' do
 end
 
 post '/' do
+  authenticate!
+  
   meetup = Meetup.create(name: params[:name], description: params[:description], location: params[:location])
 
 
